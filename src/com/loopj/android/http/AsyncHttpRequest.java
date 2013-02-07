@@ -119,6 +119,9 @@ class AsyncHttpRequest implements Runnable {
                 // http://code.google.com/p/android/issues/detail?id=5255
                 cause = new IOException("NPE in HttpClient" + e.getMessage());
                 retry = retryHandler.retryRequest(cause, ++executionCount, context);
+            } catch (Exception e) {
+                responseHandler.sendFailureMessage(e, "wtf: "+e.toString());
+                return;
             }
         }
 
