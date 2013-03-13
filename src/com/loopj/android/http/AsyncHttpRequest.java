@@ -120,7 +120,9 @@ class AsyncHttpRequest implements Runnable {
                 cause = new IOException("NPE in HttpClient" + e.getMessage());
                 retry = retryHandler.retryRequest(cause, ++executionCount, context);
             } catch (Exception e) {
-                responseHandler.sendFailureMessage(e, "wtf: "+e.toString());
+                e.printStackTrace();
+                responseHandler.sendFailureMessage(
+                    e, "Unexpected error: "+e.toString());
                 return;
             }
         }
