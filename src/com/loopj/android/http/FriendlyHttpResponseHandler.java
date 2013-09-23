@@ -32,13 +32,11 @@ public class FriendlyHttpResponseHandler extends
         context = startContext;
     }
 
-    @Override
-    public void onFailure(Throwable e) {
-        String errorDescription = "An unknown error occurred.";
+    protected void alert(String msg) {
         AlertDialog.Builder builder = new AlertDialog.Builder(
             context);
         builder.setTitle("Alert");
-        builder.setMessage(errorDescription);
+        builder.setMessage(msg);
         builder.setPositiveButton("OK",
             new DialogInterface.OnClickListener() {
                 @Override
@@ -48,6 +46,11 @@ public class FriendlyHttpResponseHandler extends
                 }
             });
         builder.create().show();
+    }
+
+    @Override
+    public void onFailure(Throwable e) {
+        alert("An unknown error occurred.");
     }
 
     public void onFailure(Throwable e, JSONObject errorResponse) {
@@ -59,53 +62,16 @@ public class FriendlyHttpResponseHandler extends
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(
-            context);
-        builder.setTitle("Alert");
-        builder.setMessage(errorDescription);
-        builder.setPositiveButton("OK",
-            new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog,
-                        int which) {
-                    dialog.dismiss();
-                }
-            });
-        builder.create().show();
+        alert(errorDescription);
     }
 
     @Override
     public void onFailure(Throwable e, String errorResponse) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(
-            context);
-        builder.setTitle("Alert");
-        builder.setMessage(errorResponse);
-        builder.setPositiveButton("OK",
-            new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog,
-                        int which) {
-                    dialog.dismiss();
-                }
-            });
-        builder.create().show();
+        alert(errorResponse);
     }
 
     public void onFailure(Throwable e, JSONArray errorResponse) {
-        String errorDescription = "An unknown error occurred.";
-        AlertDialog.Builder builder = new AlertDialog.Builder(
-            context);
-        builder.setTitle("Alert");
-        builder.setMessage(errorDescription);
-        builder.setPositiveButton("OK",
-            new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog,
-                        int which) {
-                    dialog.dismiss();
-                }
-            });
-        builder.create().show();
+        alert("An unknown error occurred.");
     }
 
     public void onSuccess(JSONObject response) {
